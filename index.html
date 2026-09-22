@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vyapara — Production & Inventory Management</title>
+  <meta name="description" content="Vyapara helps food businesses manage raw materials, production, finished goods, deliveries, stock and reports in one place." />
+  <link rel="icon" type="image/png" href="vyapara-logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ink:#082d2d;
+      --muted:#5e7373;
+      --teal:#087f76;
+      --green:#2bc86b;
+      --mint:#eafaf4;
+      --line:#dcebea;
+      --bg:#f8fcfb;
+      --white:#fff;
+      --shadow:0 24px 70px rgba(5,61,57,.12);
+      --radius:24px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--ink);
+      background:var(--bg);
+      line-height:1.6;
+    }
+    a{text-decoration:none;color:inherit}
+    .container{width:min(1160px,92%);margin:auto}
+    nav{
+      position:sticky;top:0;z-index:20;
+      backdrop-filter:blur(16px);
+      background:rgba(248,252,251,.88);
+      border-bottom:1px solid rgba(220,235,234,.7);
+    }
+    .nav-inner{height:76px;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;letter-spacing:-.04em}
+    .brand-logo{width:42px;height:42px;object-fit:contain;display:block;border-radius:10px}
+    .links{display:flex;gap:28px;color:#496464;font-size:14px;font-weight:600}
+    .links a:hover{color:var(--teal)}
+    .nav-cta,.hero-cta{
+      background:var(--ink);color:white;padding:12px 19px;border-radius:12px;font-weight:700;font-size:14px;
+      box-shadow:0 10px 25px rgba(8,45,45,.16)
+    }
+    .hero{padding:90px 0 70px;overflow:hidden}
+    .hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:65px;align-items:center}
+    .eyebrow{display:inline-flex;gap:8px;align-items:center;padding:7px 11px;border:1px solid #cfe9e2;background:#f1fbf7;border-radius:999px;color:var(--teal);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+    h1{font-size:clamp(44px,6vw,72px);line-height:1.02;letter-spacing:-.065em;margin:20px 0}
+    h1 span{background:linear-gradient(90deg,#087f76,#2bc86b);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .hero p{font-size:18px;color:var(--muted);max-width:610px}
+    .hero-actions{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+    .secondary{padding:12px 19px;border:1px solid var(--line);border-radius:12px;font-weight:700;background:white}
+    .trust{display:flex;gap:25px;margin-top:32px;flex-wrap:wrap;color:#718383;font-size:13px}
+    .trust b{color:var(--ink)}
+    .dashboard{
+      background:white;border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);padding:15px;
+      transform:rotate(1.2deg);
+    }
+    .dash-top{display:flex;align-items:center;justify-content:space-between;padding:8px 8px 14px}
+    .dots{display:flex;gap:5px}.dot{width:8px;height:8px;border-radius:50%;background:#cde1df}
+    .dash-title{font-size:12px;font-weight:800;color:#577070}
+    .dash-content{background:#f6faf9;border-radius:18px;padding:18px}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .stat{background:white;border:1px solid #e5efed;border-radius:15px;padding:14px}
+    .stat small{color:#769090;font-size:10px;font-weight:700}.stat strong{display:block;font-size:22px;margin-top:3px}
+    .chart{height:170px;background:white;border:1px solid #e5efed;border-radius:15px;margin-top:10px;padding:16px;position:relative;overflow:hidden}
+    .chart-line{position:absolute;left:10%;right:8%;bottom:30px;height:80px;border-bottom:2px solid #20a875;border-radius:50%;transform:skewY(-9deg)}
+    .chart-line:before{content:"";position:absolute;left:0;right:0;top:30px;border-top:1px dashed #d9e9e6}
+    .stock-row{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:11px}
+    .pill{padding:5px 8px;border-radius:999px;background:#eafaf1;color:#16804f;font-weight:800}
+    section{padding:95px 0}
+    .section-head{max-width:680px;margin-bottom:42px}
+    .section-head .eyebrow{margin-bottom:14px}
+    h2{font-size:clamp(32px,4vw,50px);line-height:1.08;letter-spacing:-.05em;margin:0 0 14px}
+    .section-head p{color:var(--muted);margin:0;font-size:17px}
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}
+    .card{background:white;border:1px solid var(--line);border-radius:20px;padding:25px;transition:.25s}
+    .card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(8,70,66,.08)}
+    .icon{width:44px;height:44px;border-radius:13px;background:var(--mint);display:grid;place-items:center;color:var(--teal);font-size:20px;margin-bottom:20px}
+    .card h3{margin:0 0 7px;font-size:18px}.card p{margin:0;color:var(--muted);font-size:14px}
+    .feature-list{margin:18px 0 0;padding:0;list-style:none;color:#536c6b;font-size:13px}
+    .feature-list li{margin:8px 0}.feature-list li:before{content:"✓";color:#159766;font-weight:800;margin-right:8px}
+    .workflow{background:#062e2e;color:white}
+    .workflow .section-head p{color:#a8c1be}.workflow .eyebrow{background:#0b4542;border-color:#17635d;color:#7fe0ae}
+    .flow{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;align-items:stretch}
+    .flow-item{padding:22px 14px;border:1px solid rgba(255,255,255,.11);border-radius:18px;background:rgba(255,255,255,.045);text-align:center}
+    .flow-num{font-size:11px;color:#78dca7;font-weight:800}.flow-item h3{font-size:15px;margin:8px 0 3px}.flow-item p{font-size:11px;color:#a9c0bd;margin:0}
+    .real-stock{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+    .stock-panel{background:white;border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:var(--shadow)}
+    .stock-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:16px}
+    .stock-head strong{font-size:17px}.stock-head span{font-size:11px;color:#668080}
+    .material{padding:18px 0;border-bottom:1px solid #edf3f2}.material:last-child{border:0}
+    .mat-top{display:flex;justify-content:space-between;font-size:13px;font-weight:700}.bar{height:7px;background:#e9f2f0;border-radius:20px;margin-top:10px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,#087f76,#2bc86b);border-radius:20px}
+    .mat-bottom{display:flex;justify-content:space-between;margin-top:6px;color:#78908f;font-size:11px}
+    .steps{display:grid;gap:13px;margin-top:25px}
+    .step{display:flex;gap:14px;align-items:flex-start}.step b{width:31px;height:31px;border-radius:50%;background:var(--mint);color:var(--teal);display:grid;place-items:center;flex:none;font-size:12px}.step strong{display:block;font-size:14px}.step span{font-size:12px;color:var(--muted)}
+    .reports{background:#f0f8f6}
+    .report-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+    .report-card{background:white;border:1px solid var(--line);border-radius:22px;padding:28px}
+    .report-card.large{min-height:310px}
+    .report-lines{display:grid;gap:11px;margin-top:25px}
+    .report-line{display:grid;grid-template-columns:1fr 80px 70px;gap:10px;align-items:center;font-size:12px}.report-line .line{height:8px;border-radius:10px;background:#edf4f2}.report-line .line i{display:block;height:100%;background:#43bd7b;border-radius:10px}
+    .cta{padding:95px 0}.cta-box{background:linear-gradient(135deg,#073b39,#087f76);color:white;border-radius:30px;padding:55px;display:flex;justify-content:space-between;gap:30px;align-items:center}.cta-box h2{max-width:620px}.cta-box p{color:#b9d8d3;max-width:600px}.cta-btn{background:white;color:#073b39;padding:13px 20px;border-radius:12px;font-weight:800;white-space:nowrap}
+    footer{border-top:1px solid var(--line);padding:28px 0;color:#6a8180;font-size:12px}.footer-inner{display:flex;justify-content:space-between;gap:20px}
+    @media(max-width:900px){.hero-grid,.real-stock,.report-grid{grid-template-columns:1fr}.features{grid-template-columns:repeat(2,1fr)}.flow{grid-template-columns:repeat(3,1fr)}.hero{padding-top:60px}.dashboard{max-width:700px;margin:auto}}
+    @media(max-width:620px){.links{display:none}.features{grid-template-columns:1fr}.flow{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:1fr}.cta-box{padding:35px 25px;display:block}.cta-btn{display:inline-block;margin-top:15px}.footer-inner{display:block}.footer-inner div+div{margin-top:8px}section{padding:70px 0}}
+  </style>
+</head>
+<body>
+<nav>
+  <div class="container nav-inner">
+    <a class="brand" href="#"><img class="brand-logo" src="vyapara-logo.png" alt="Vyapara logo" /> <span>Vyapara</span></a>
+    <div class="links">
+      <a href="#features">Features</a>
+      <a href="#workflow">How it works</a>
+      <a href="#stock">Stock</a>
+      <a href="#reports">Reports</a>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center"><a href="tel:+917736965095" style="padding:11px 15px;border:1px solid #cfe1df;border-radius:12px;font-weight:700;font-size:13px;background:white;color:#082d2d">☎ Call Us</a><a class="nav-cta" href="#contact">Request Demo</a></div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container hero-grid">
+    <div>
+      <div class="eyebrow">Production • Inventory • Distribution</div>
+      <h1>Run your production business with <span>clarity.</span></h1>
+      <p>Vyapara brings raw materials, production, finished goods, deliveries, stock history and reports into one simple system built for food businesses.</p>
+      <div class="hero-actions">
+        <a class="hero-cta" href="#contact">Request a Demo →</a>
+        <a class="secondary" href="#features">Explore Features</a>
+      </div>
+      <div class="trust">
+        <span><b>✓</b> Real stock tracking</span>
+        <span><b>✓</b> Batch management</span>
+        <span><b>✓</b> Printable records</span>
+      </div>
+    </div>
+
+    <div class="dashboard" aria-label="Vyapara dashboard preview">
+      <div class="dash-top">
+        <div class="dots"><i class="dot"></i><i class="dot"></i><i class="dot"></i></div>
+        <span class="dash-title">VYAPARA DASHBOARD</span>
+        <span>•••</span>
+      </div>
+      <div class="dash-content">
+        <div class="stats">
+          <div class="stat"><small>RAW MATERIALS</small><strong>245 kg</strong></div>
+          <div class="stat"><small>TODAY'S PRODUCTION</small><strong>128</strong></div>
+          <div class="stat"><small>FINISHED GOODS</small><strong>1,284</strong></div>
+        </div>
+        <div class="chart">
+          <small style="font-size:10px;color:#718887;font-weight:700">PRODUCTION OVERVIEW</small>
+          <div class="chart-line"></div>
+        </div>
+        <div class="stock-row"><span>Flour — 245 kg available</span><span class="pill">In stock</span></div>
+        <div class="stock-row"><span>Banana Chips — 200 GM</span><span class="pill">45 packs</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="features">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Everything in one place</div>
+      <h2>From incoming materials to outgoing products.</h2>
+      <p>Vyapara connects the everyday operations that keep a food-production business moving.</p>
+    </div>
+
+    <div class="features">
+      <article class="card"><div class="icon">▣</div><h3>Inventory Management</h3><p>Know what materials you have, what was received and what is available now.</p><ul class="feature-list"><li>Raw materials</li><li>Stock additions</li><li>Low-stock visibility</li><li>Stock history</li></ul></article>
+      <article class="card"><div class="icon">◈</div><h3>Batch Management</h3><p>Keep stock organized by batch for better traceability.</p><ul class="feature-list"><li>Batch numbers</li><li>Received dates</li><li>Expiry tracking</li><li>Available quantity</li></ul></article>
+      <article class="card"><div class="icon">⚙</div><h3>Recipe Management</h3><p>Define what each product needs before it reaches production.</p><ul class="feature-list"><li>Product recipes</li><li>Material quantities</li><li>Production requirements</li><li>Reusable recipes</li></ul></article>
+      <article class="card"><div class="icon">⌁</div><h3>Production Management</h3><p>Record production and connect it directly to material consumption.</p><ul class="feature-list"><li>Production entries</li><li>Drafts</li><li>Automatic material deduction</li><li>Production history</li></ul></article>
+      <article class="card"><div class="icon">□</div><h3>Finished Goods</h3><p>Track exactly what has been produced and what is ready to move.</p><ul class="feature-list"><li>Product-wise stock</li><li>Pack sizes</li><li>Manufacturing dates</li><li>Finished-goods history</li></ul></article>
+      <article class="card"><div class="icon">→</div><h3>Delivery & Distribution</h3><p>Manage outgoing products and keep delivery records organized.</p><ul class="feature-list"><li>Drivers & executives</li><li>Multiple products</li><li>Quantities</li><li>Delivery history</li></ul></article>
+      <article class="card"><div class="icon">↗</div><h3>Reports</h3><p>Turn operational records into useful business information.</p><ul class="feature-list"><li>Production reports</li><li>Stock reports</li><li>Delivery reports</li><li>Daily & monthly records</li></ul></article>
+      <article class="card"><div class="icon">▤</div><h3>Printing</h3><p>Keep important operational documents ready when you need them.</p><ul class="feature-list"><li>Production documents</li><li>Delivery records</li><li>Stock reports</li><li>Printable history</li></ul></article>
+      <article class="card"><div class="icon">♙</div><h3>User Access</h3><p>Give the right people access to the parts of the system they need.</p><ul class="feature-list"><li>Admin access</li><li>Staff accounts</li><li>Authorized access</li><li>Centralized system</li></ul></article>
+    </div>
+  </div>
+</section>
+
+<section class="workflow" id="workflow">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">One connected workflow</div>
+      <h2>Follow the product from material to delivery.</h2>
+      <p>Every major step is connected, so your records stay consistent as work moves through the business.</p>
+    </div>
+    <div class="flow">
+      <div class="flow-item"><span class="flow-num">01</span><h3>Raw Materials</h3><p>Receive and track stock.</p></div>
+      <div class="flow-item"><span class="flow-num">02</span><h3>Recipes</h3><p>Define material requirements.</p></div>
+      <div class="flow-item"><span class="flow-num">03</span><h3>Production</h3><p>Record completed production.</p></div>
+      <div class="flow-item"><span class="flow-num">04</span><h3>Stock Deduction</h3><p>Update material balances.</p></div>
+      <div class="flow-item"><span class="flow-num">05</span><h3>Finished Goods</h3><p>Track produced products.</p></div>
+      <div class="flow-item"><span class="flow-num">06</span><h3>Delivery</h3><p>Move products out.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="stock">
+  <div class="container real-stock">
+    <div>
+      <div class="eyebrow">Real stock visibility</div>
+      <h2>Know what you have. Know what changed.</h2>
+      <p style="color:var(--muted);font-size:17px">Vyapara keeps stock connected to the work that changes it. When production is completed, the related raw-material quantities can be deducted and finished goods recorded.</p>
+      <div class="steps">
+        <div class="step"><b>1</b><div><strong>Receive stock</strong><span>Add incoming material with batch and quantity details.</span></div></div>
+        <div class="step"><b>2</b><div><strong>Complete production</strong><span>Use a recipe to record the materials consumed.</span></div></div>
+        <div class="step"><b>3</b><div><strong>Update finished goods</strong><span>Record the products and pack sizes produced.</span></div></div>
+        <div class="step"><b>4</b><div><strong>Track movement</strong><span>Keep the history behind your current stock.</span></div></div>
+      </div>
+    </div>
+    <div class="stock-panel">
+      <div class="stock-head"><strong>Current Stock</strong><span>Updated from operations</span></div>
+      <div class="material"><div class="mat-top"><span>Flour</span><span>245 kg</span></div><div class="bar"><i style="width:78%"></i></div><div class="mat-bottom"><span>Batch FLR-0926</span><span>Healthy</span></div></div>
+      <div class="material"><div class="mat-top"><span>Sugar</span><span>118 kg</span></div><div class="bar"><i style="width:52%"></i></div><div class="mat-bottom"><span>Batch SGR-0926</span><span>Healthy</span></div></div>
+      <div class="material"><div class="mat-top"><span>Cooking Oil</span><span>31 L</span></div><div class="bar"><i style="width:28%"></i></div><div class="mat-bottom"><span>Batch OIL-0926</span><span>Watch</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="reports" id="reports">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Business records</div>
+      <h2>See the history behind your numbers.</h2>
+      <p>Keep production, inventory and distribution records organized so your team can review what happened.</p>
+    </div>
+    <div class="report-grid">
+      <div class="report-card large">
+        <h3>Production overview</h3>
+        <p style="color:var(--muted);font-size:13px">A simple view of recent production activity.</p>
+        <div class="report-lines">
+          <div class="report-line"><span>Banana Chips</span><div class="line"><i style="width:88%"></i></div><b>128</b></div>
+          <div class="report-line"><span>Mixture</span><div class="line"><i style="width:68%"></i></div><b>94</b></div>
+          <div class="report-line"><span>Cookies</span><div class="line"><i style="width:52%"></i></div><b>72</b></div>
+          <div class="report-line"><span>Spicy Snacks</span><div class="line"><i style="width:41%"></i></div><b>58</b></div>
+        </div>
+      </div>
+      <div class="report-card">
+        <h3>Keep records ready</h3>
+        <p style="color:var(--muted);font-size:13px">Review daily and monthly activity, then print the records your business needs.</p>
+        <ul class="feature-list">
+          <li>Production history</li>
+          <li>Raw-material stock</li>
+          <li>Finished-goods stock</li>
+          <li>Delivery history</li>
+          <li>Stock movement</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="contact">
+  <div class="container">
+    <div class="cta-box">
+      <div>
+        <div class="eyebrow" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#9be6ba">Built for growing businesses</div>
+        <h2>Ready to bring your production operations into one system?</h2>
+        <p>See how Vyapara can fit your production, inventory and distribution workflow.</p>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="cta-btn" href="mailto:apps.axion.creative@gmail.com?subject=Vyapara%20Demo%20Request">Request a Demo →</a><a href="tel:+917736965095" style="background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.25);padding:13px 20px;border-radius:12px;font-weight:800;white-space:nowrap">☎ Call +91 77369 65095</a></div>
+    </div>
+  </div>
+</section>
+
+
+<section style="padding:45px 0;background:white">
+  <div class="container" style="display:flex;justify-content:space-between;align-items:center;gap:25px;flex-wrap:wrap">
+    <div>
+      <div style="font-size:12px;font-weight:800;color:#087f76;text-transform:uppercase;letter-spacing:.08em">Talk to Vyapara</div>
+      <h3 style="font-size:25px;margin:7px 0 3px;letter-spacing:-.03em">Have questions? Call us directly.</h3>
+      <p style="margin:0;color:#6a8180;font-size:14px">Speak with our team about your production and inventory workflow.</p>
+    </div>
+    <a href="tel:+917736965095" style="display:inline-flex;align-items:center;gap:9px;background:#082d2d;color:white;padding:14px 20px;border-radius:12px;font-weight:800">☎ +91 77369 65095</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-inner">
+    <div><strong style="color:var(--ink)">Vyapara</strong> — Production & Inventory Management</div>
+    <div>Powered by Axion Creatives · Ideas. Code. Real Impact.</div>
+  </div>
+</footer>
+</body>
+</html>
